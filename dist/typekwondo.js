@@ -793,39 +793,6 @@
 
 (['src/typekwondo.js'], function(System) {
 
-System.registerDynamic("node_modules/js-typed-errors/src/make-error-type.js", [], true, function(require, exports, module) {
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  function makeErrorType(name, ErrorConstructor) {
-    'use strict';
-    ErrorConstructor.prototype = Object.create(Error.prototype, {'name': {
-        configurable: false,
-        writable: false,
-        value: name
-      }});
-    ErrorConstructor.constructor = ErrorConstructor;
-    return ErrorConstructor;
-  }
-  module.exports = makeErrorType;
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("node_modules/js-typed-errors/src/typed-errors/NotFoundError.js", ["node_modules/js-typed-errors/src/make-error-type.js"], true, function(require, exports, module) {
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  'use strict';
-  var makeErrorType = require("node_modules/js-typed-errors/src/make-error-type.js");
-  function NotFoundError(msg) {
-    this.msg = msg || 'The specified url was not found';
-  }
-  module.exports = makeErrorType('NotFound', NotFoundError);
-  global.define = __define;
-  return module.exports;
-});
-
 System.registerDynamic("node_modules/ramda/src/internal/_curry1.js", [], true, function(require, exports, module) {
   var global = this,
       __define = global.define;
@@ -1045,38 +1012,6 @@ System.registerDynamic("node_modules/ramda/src/internal/_xfBase.js", [], true, f
   return module.exports;
 });
 
-System.registerDynamic("node_modules/ramda/src/internal/_curryN.js", ["node_modules/ramda/src/arity.js"], true, function(require, exports, module) {
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var arity = require("node_modules/ramda/src/arity.js");
-  module.exports = function _curryN(length, received, fn) {
-    return function() {
-      var combined = [];
-      var argsIdx = 0;
-      var left = length;
-      var combinedIdx = 0;
-      while (combinedIdx < received.length || argsIdx < arguments.length) {
-        var result;
-        if (combinedIdx < received.length && (received[combinedIdx] == null || received[combinedIdx]['@@functional/placeholder'] !== true || argsIdx >= arguments.length)) {
-          result = received[combinedIdx];
-        } else {
-          result = arguments[argsIdx];
-          argsIdx += 1;
-        }
-        combined[combinedIdx] = result;
-        if (result == null || result['@@functional/placeholder'] !== true) {
-          left -= 1;
-        }
-        combinedIdx += 1;
-      }
-      return left <= 0 ? fn.apply(this, combined) : arity(left, _curryN(length, combined, fn));
-    };
-  };
-  global.define = __define;
-  return module.exports;
-});
-
 System.registerDynamic("node_modules/ramda/src/internal/_filter.js", [], true, function(require, exports, module) {
   var global = this,
       __define = global.define;
@@ -1150,6 +1085,39 @@ System.registerDynamic("node_modules/ramda/src/internal/_hasMethod.js", ["node_m
   return module.exports;
 });
 
+System.registerDynamic("node_modules/js-typed-errors/src/make-error-type.js", [], true, function(require, exports, module) {
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  function makeErrorType(name, ErrorConstructor) {
+    'use strict';
+    ErrorConstructor.prototype = Object.create(Error.prototype, {'name': {
+        configurable: false,
+        writable: false,
+        value: name
+      }});
+    ErrorConstructor.constructor = ErrorConstructor;
+    return ErrorConstructor;
+  }
+  module.exports = makeErrorType;
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("node_modules/js-typed-errors/src/typed-errors/NotFoundError.js", ["node_modules/js-typed-errors/src/make-error-type.js"], true, function(require, exports, module) {
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var makeErrorType = require("node_modules/js-typed-errors/src/make-error-type.js");
+  function NotFoundError(msg) {
+    this.msg = msg || 'The specified url was not found';
+  }
+  module.exports = makeErrorType('NotFound', NotFoundError);
+  global.define = __define;
+  return module.exports;
+});
+
 System.registerDynamic("node_modules/just-debounce/index.js", [], true, function(require, exports, module) {
   var global = this,
       __define = global.define;
@@ -1185,7 +1153,27 @@ System.registerDynamic("node_modules/just-debounce/index.js", [], true, function
   return module.exports;
 });
 
-System.registerDynamic("node_modules/lucidjs//lib/event-emitter.js", [], true, function(require, exports, module) {
+System.registerDynamic("node_modules/gl-matrix/src/gl-matrix/common.js", [], true, function(require, exports, module) {
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var glMatrix = {};
+  glMatrix.EPSILON = 0.000001;
+  glMatrix.ARRAY_TYPE = (typeof Float32Array !== 'undefined') ? Float32Array : Array;
+  glMatrix.RANDOM = Math.random;
+  glMatrix.setMatrixArrayType = function(type) {
+    GLMAT_ARRAY_TYPE = type;
+  };
+  var degree = Math.PI / 180;
+  glMatrix.toRadian = function(a) {
+    return a * degree;
+  };
+  module.exports = glMatrix;
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("node_modules/lucidjs/lib/event-emitter.js", [], true, function(require, exports, module) {
   var global = this,
       __define = global.define;
   global.define = undefined;
@@ -1624,20 +1612,6 @@ System.registerDynamic("node_modules/lucidjs//lib/event-emitter.js", [], true, f
   return module.exports;
 });
 
-System.registerDynamic("node_modules/js-typed-errors/src/typed-errors/ActionAbortedError.js", ["node_modules/js-typed-errors/src/make-error-type.js"], true, function(require, exports, module) {
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  'use strict';
-  var makeErrorType = require("node_modules/js-typed-errors/src/make-error-type.js");
-  function ActionAbortedError(msg) {
-    this.msg = msg || 'The action was aborted';
-  }
-  module.exports = makeErrorType('ActionAborted', ActionAbortedError);
-  global.define = __define;
-  return module.exports;
-});
-
 System.registerDynamic("node_modules/ramda/src/internal/_curry3.js", ["node_modules/ramda/src/internal/_curry1.js", "node_modules/ramda/src/internal/_curry2.js"], true, function(require, exports, module) {
   var global = this,
       __define = global.define;
@@ -1808,20 +1782,6 @@ System.registerDynamic("node_modules/ramda/src/internal/_xmap.js", ["node_module
   return module.exports;
 });
 
-System.registerDynamic("node_modules/ramda/src/curryN.js", ["node_modules/ramda/src/internal/_curry2.js", "node_modules/ramda/src/internal/_curryN.js", "node_modules/ramda/src/arity.js"], true, function(require, exports, module) {
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var _curry2 = require("node_modules/ramda/src/internal/_curry2.js");
-  var _curryN = require("node_modules/ramda/src/internal/_curryN.js");
-  var arity = require("node_modules/ramda/src/arity.js");
-  module.exports = _curry2(function curryN(length, fn) {
-    return arity(length, _curryN(length, [], fn));
-  });
-  global.define = __define;
-  return module.exports;
-});
-
 System.registerDynamic("node_modules/ramda/src/filter.js", ["node_modules/ramda/src/internal/_curry2.js", "node_modules/ramda/src/internal/_dispatchable.js", "node_modules/ramda/src/internal/_filter.js", "node_modules/ramda/src/internal/_xfilter.js"], true, function(require, exports, module) {
   var global = this,
       __define = global.define;
@@ -1845,6 +1805,227 @@ System.registerDynamic("node_modules/ramda/src/forEach.js", ["node_modules/ramda
   module.exports = _curry2(function forEach(fn, list) {
     return _hasMethod('forEach', list) ? list.forEach(fn) : _forEach(fn, list);
   });
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("node_modules/js-typed-errors/src/typed-errors/ActionAbortedError.js", ["node_modules/js-typed-errors/src/make-error-type.js"], true, function(require, exports, module) {
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var makeErrorType = require("node_modules/js-typed-errors/src/make-error-type.js");
+  function ActionAbortedError(msg) {
+    this.msg = msg || 'The action was aborted';
+  }
+  module.exports = makeErrorType('ActionAborted', ActionAbortedError);
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("node_modules/gl-matrix/src/gl-matrix/vec2.js", ["node_modules/gl-matrix/src/gl-matrix/common.js"], true, function(require, exports, module) {
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var glMatrix = require("node_modules/gl-matrix/src/gl-matrix/common.js");
+  var vec2 = {};
+  vec2.create = function() {
+    var out = new glMatrix.ARRAY_TYPE(2);
+    out[0] = 0;
+    out[1] = 0;
+    return out;
+  };
+  vec2.clone = function(a) {
+    var out = new glMatrix.ARRAY_TYPE(2);
+    out[0] = a[0];
+    out[1] = a[1];
+    return out;
+  };
+  vec2.fromValues = function(x, y) {
+    var out = new glMatrix.ARRAY_TYPE(2);
+    out[0] = x;
+    out[1] = y;
+    return out;
+  };
+  vec2.copy = function(out, a) {
+    out[0] = a[0];
+    out[1] = a[1];
+    return out;
+  };
+  vec2.set = function(out, x, y) {
+    out[0] = x;
+    out[1] = y;
+    return out;
+  };
+  vec2.add = function(out, a, b) {
+    out[0] = a[0] + b[0];
+    out[1] = a[1] + b[1];
+    return out;
+  };
+  vec2.subtract = function(out, a, b) {
+    out[0] = a[0] - b[0];
+    out[1] = a[1] - b[1];
+    return out;
+  };
+  vec2.sub = vec2.subtract;
+  vec2.multiply = function(out, a, b) {
+    out[0] = a[0] * b[0];
+    out[1] = a[1] * b[1];
+    return out;
+  };
+  vec2.mul = vec2.multiply;
+  vec2.divide = function(out, a, b) {
+    out[0] = a[0] / b[0];
+    out[1] = a[1] / b[1];
+    return out;
+  };
+  vec2.div = vec2.divide;
+  vec2.min = function(out, a, b) {
+    out[0] = Math.min(a[0], b[0]);
+    out[1] = Math.min(a[1], b[1]);
+    return out;
+  };
+  vec2.max = function(out, a, b) {
+    out[0] = Math.max(a[0], b[0]);
+    out[1] = Math.max(a[1], b[1]);
+    return out;
+  };
+  vec2.scale = function(out, a, b) {
+    out[0] = a[0] * b;
+    out[1] = a[1] * b;
+    return out;
+  };
+  vec2.scaleAndAdd = function(out, a, b, scale) {
+    out[0] = a[0] + (b[0] * scale);
+    out[1] = a[1] + (b[1] * scale);
+    return out;
+  };
+  vec2.distance = function(a, b) {
+    var x = b[0] - a[0],
+        y = b[1] - a[1];
+    return Math.sqrt(x * x + y * y);
+  };
+  vec2.dist = vec2.distance;
+  vec2.squaredDistance = function(a, b) {
+    var x = b[0] - a[0],
+        y = b[1] - a[1];
+    return x * x + y * y;
+  };
+  vec2.sqrDist = vec2.squaredDistance;
+  vec2.length = function(a) {
+    var x = a[0],
+        y = a[1];
+    return Math.sqrt(x * x + y * y);
+  };
+  vec2.len = vec2.length;
+  vec2.squaredLength = function(a) {
+    var x = a[0],
+        y = a[1];
+    return x * x + y * y;
+  };
+  vec2.sqrLen = vec2.squaredLength;
+  vec2.negate = function(out, a) {
+    out[0] = -a[0];
+    out[1] = -a[1];
+    return out;
+  };
+  vec2.inverse = function(out, a) {
+    out[0] = 1.0 / a[0];
+    out[1] = 1.0 / a[1];
+    return out;
+  };
+  vec2.normalize = function(out, a) {
+    var x = a[0],
+        y = a[1];
+    var len = x * x + y * y;
+    if (len > 0) {
+      len = 1 / Math.sqrt(len);
+      out[0] = a[0] * len;
+      out[1] = a[1] * len;
+    }
+    return out;
+  };
+  vec2.dot = function(a, b) {
+    return a[0] * b[0] + a[1] * b[1];
+  };
+  vec2.cross = function(out, a, b) {
+    var z = a[0] * b[1] - a[1] * b[0];
+    out[0] = out[1] = 0;
+    out[2] = z;
+    return out;
+  };
+  vec2.lerp = function(out, a, b, t) {
+    var ax = a[0],
+        ay = a[1];
+    out[0] = ax + t * (b[0] - ax);
+    out[1] = ay + t * (b[1] - ay);
+    return out;
+  };
+  vec2.random = function(out, scale) {
+    scale = scale || 1.0;
+    var r = glMatrix.RANDOM() * 2.0 * Math.PI;
+    out[0] = Math.cos(r) * scale;
+    out[1] = Math.sin(r) * scale;
+    return out;
+  };
+  vec2.transformMat2 = function(out, a, m) {
+    var x = a[0],
+        y = a[1];
+    out[0] = m[0] * x + m[2] * y;
+    out[1] = m[1] * x + m[3] * y;
+    return out;
+  };
+  vec2.transformMat2d = function(out, a, m) {
+    var x = a[0],
+        y = a[1];
+    out[0] = m[0] * x + m[2] * y + m[4];
+    out[1] = m[1] * x + m[3] * y + m[5];
+    return out;
+  };
+  vec2.transformMat3 = function(out, a, m) {
+    var x = a[0],
+        y = a[1];
+    out[0] = m[0] * x + m[3] * y + m[6];
+    out[1] = m[1] * x + m[4] * y + m[7];
+    return out;
+  };
+  vec2.transformMat4 = function(out, a, m) {
+    var x = a[0],
+        y = a[1];
+    out[0] = m[0] * x + m[4] * y + m[12];
+    out[1] = m[1] * x + m[5] * y + m[13];
+    return out;
+  };
+  vec2.forEach = (function() {
+    var vec = vec2.create();
+    return function(a, stride, offset, count, fn, arg) {
+      var i,
+          l;
+      if (!stride) {
+        stride = 2;
+      }
+      if (!offset) {
+        offset = 0;
+      }
+      if (count) {
+        l = Math.min((count * stride) + offset, a.length);
+      } else {
+        l = a.length;
+      }
+      for (i = offset; i < l; i += stride) {
+        vec[0] = a[i];
+        vec[1] = a[i + 1];
+        fn(vec, vec, arg);
+        a[i] = vec[0];
+        a[i + 1] = vec[1];
+      }
+      return a;
+    };
+  })();
+  vec2.str = function(a) {
+    return 'vec2(' + a[0] + ', ' + a[1] + ')';
+  };
+  module.exports = vec2;
   global.define = __define;
   return module.exports;
 });
@@ -1922,19 +2103,6 @@ System.registerDynamic("node_modules/ramda/src/map.js", ["node_modules/ramda/src
   return module.exports;
 });
 
-System.registerDynamic("node_modules/ramda/src/curry.js", ["node_modules/ramda/src/internal/_curry1.js", "node_modules/ramda/src/curryN.js"], true, function(require, exports, module) {
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var _curry1 = require("node_modules/ramda/src/internal/_curry1.js");
-  var curryN = require("node_modules/ramda/src/curryN.js");
-  module.exports = _curry1(function curry(fn) {
-    return curryN(fn.length, fn);
-  });
-  global.define = __define;
-  return module.exports;
-});
-
 System.registerDynamic("node_modules/ramda/src/reduce.js", ["node_modules/ramda/src/internal/_curry3.js", "node_modules/ramda/src/internal/_reduce.js"], true, function(require, exports, module) {
   var global = this,
       __define = global.define;
@@ -1942,18 +2110,6 @@ System.registerDynamic("node_modules/ramda/src/reduce.js", ["node_modules/ramda/
   var _curry3 = require("node_modules/ramda/src/internal/_curry3.js");
   var _reduce = require("node_modules/ramda/src/internal/_reduce.js");
   module.exports = _curry3(_reduce);
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("node_modules/ramda/src/invoke.js", ["node_modules/ramda/src/curry.js"], true, function(require, exports, module) {
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var curry = require("node_modules/ramda/src/curry.js");
-  module.exports = curry(function invoke(methodName, args, obj) {
-    return obj[methodName].apply(obj, args);
-  });
   global.define = __define;
   return module.exports;
 });
@@ -1982,7 +2138,109 @@ System.register('src/image-loader/data-url-loader.js', [], function (_export) {
     }
   };
 });
-System.register('src/message-bus.js', ['node_modules/lucidjs//lib/event-emitter.js'], function (_export) {
+
+System.register('src/id-generator.js', [], function (_export) {
+  'use strict';
+
+  var idGenerator;
+  return {
+    setters: [],
+    execute: function () {
+      /**
+       * Returns Creaates a generator function that will generate a unique id
+       * @param  {String} prefix - A Prefix for the unique Id
+       * @return {Generator}      - a Generator that will give you the next unique id
+       *
+       * @example
+       * <pre>
+       * let uniqueObjectId = idGenerator('Object');
+       * let id = uniqueObjectId.next().value;
+       * // id === 'Object0'
+       * id = uniqueObjectId.next().value;
+       * // id === 'Object1'
+       * </pre>
+       */
+
+      idGenerator = function idGenerator() {
+        var prefix = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
+
+        return regeneratorRuntime.mark(function callee$1$0() {
+          var index;
+          return regeneratorRuntime.wrap(function callee$1$0$(context$2$0) {
+            while (1) switch (context$2$0.prev = context$2$0.next) {
+              case 0:
+                index = 0;
+
+              case 1:
+                if (!true) {
+                  context$2$0.next = 6;
+                  break;
+                }
+
+                context$2$0.next = 4;
+                return prefix + index++;
+
+              case 4:
+                context$2$0.next = 1;
+                break;
+
+              case 6:
+              case 'end':
+                return context$2$0.stop();
+            }
+          }, callee$1$0, this);
+        })();
+      };
+
+      _export('default', idGenerator);
+    }
+  };
+});
+
+System.register('src/sprite.js', ['src/positionable.js', 'src/id-generator.js'], function (_export) {
+  'use strict';
+
+  var Positionable, idGenerator, spriteIdGenerator, Sprite;
+  return {
+    setters: [function (_srcPositionableJs) {
+      Positionable = _srcPositionableJs['default'];
+    }, function (_srcIdGeneratorJs) {
+      idGenerator = _srcIdGeneratorJs['default'];
+    }],
+    execute: function () {
+      spriteIdGenerator = idGenerator('Sprite');
+
+      Sprite = (function (_Positionable) {
+        babelHelpers.inherits(Sprite, _Positionable);
+
+        function Sprite() {
+          var id = arguments.length <= 0 || arguments[0] === undefined ? spriteIdGenerator.next().value : arguments[0];
+          babelHelpers.classCallCheck(this, Sprite);
+
+          babelHelpers.get(Object.getPrototypeOf(Sprite.prototype), 'constructor', this).call(this);
+
+          this.id = id;
+        }
+
+        babelHelpers.createClass(Sprite, [{
+          key: 'image',
+          get: function get() {
+            return this._image;
+          },
+          set: function set(img) {
+            this._image = img;
+            return this;
+          }
+        }]);
+        return Sprite;
+      })(Positionable);
+
+      _export('default', Sprite);
+    }
+  };
+});
+
+System.register('src/message-bus.js', ['node_modules/lucidjs/lib/event-emitter.js'], function (_export) {
   'use strict';
 
   var Emitter;
@@ -1995,6 +2253,7 @@ System.register('src/message-bus.js', ['node_modules/lucidjs//lib/event-emitter.
     }
   };
 });
+
 System.register('src/image-loader/url-loader.js', ['node_modules/js-typed-errors/src/typed-errors/ActionAbortedError.js', 'node_modules/js-typed-errors/src/typed-errors/NotFoundError.js'], function (_export) {
   'use strict';
 
@@ -2034,97 +2293,191 @@ System.register('src/image-loader/url-loader.js', ['node_modules/js-typed-errors
     }
   };
 });
-System.register('src/canvas/canvas.js', ['node_modules/just-debounce/index.js', 'src/message-bus.js'], function (_export) {
+
+System.register('src/positionable.js', ['node_modules/gl-matrix/src/gl-matrix/vec2.js'], function (_export) {
   'use strict';
 
-  var debounce, messageBus, canvasEl, height, width, contextType, getContext, canvasHeight, canvasWidth;
-
-  _export('setup', setup);
-
-  function sizeToContainer(containerEl) {
-    return function () {
-      height = containerEl.offsetHeight;
-      width = containerEl.offsetWidth;
-
-      canvasEl.setAttribute('width', width);
-      canvasEl.setAttribute('height', height);
-
-      messageBus.emit('canvas.resize', width, height);
-    };
-  }
-
-  function setup() {
-    var config = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
-    var containerEl = config.containerEl ? config.containerEl : document.body;
-    contextType = config.contextType ? config.contextType : contextType;
-
-    window.onresize = debounce(sizeToContainer(containerEl), 250);
-    window.onresize();
-
-    containerEl.appendChild(canvasEl);
-  }
-
+  var vec2, Positionable;
   return {
-    setters: [function (_node_modulesJustDebounceIndexJs) {
-      debounce = _node_modulesJustDebounceIndexJs['default'];
-    }, function (_srcMessageBusJs) {
-      messageBus = _srcMessageBusJs['default'];
+    setters: [function (_node_modulesGlMatrixSrcGlMatrixVec2Js) {
+      vec2 = _node_modulesGlMatrixSrcGlMatrixVec2Js['default'];
     }],
     execute: function () {
-      canvasEl = document.createElement('canvas');
-      height = 800;
-      width = 600;
-      contextType = '2d';
+      Positionable = (function () {
+        function Positionable() {
+          babelHelpers.classCallCheck(this, Positionable);
 
-      getContext = function getContext() {
-        return canvasEl.getContext(contextType);
-      };
+          this.scale = 1;
+          this.position = vec2.create(0, 0);
+          this.z = 0;
 
-      _export('getContext', getContext);
+          this._width = 0;
+          this._height = 0;
+        }
 
-      canvasHeight = function canvasHeight() {
-        return height;
-      };
+        babelHelpers.createClass(Positionable, [{
+          key: 'width',
+          get: function get() {
+            return this._width * this.scale;
+          },
+          set: function set(val) {
+            this._width = val;
+            return this;
+          }
+        }, {
+          key: 'height',
+          get: function get() {
+            return this._height * this.scale;
+          },
+          set: function set(val) {
+            this._height = val;
+            return this;
+          }
+        }, {
+          key: 'x',
+          get: function get() {
+            return this.position[0];
+          },
+          set: function set(val) {
+            this.position[0] = val;
+            return this;
+          }
+        }, {
+          key: 'y',
+          get: function get() {
+            return this.position[1];
+          },
+          set: function set(val) {
+            this.position[1] = val;
+            return this;
+          }
+        }]);
+        return Positionable;
+      })();
 
-      _export('canvasHeight', canvasHeight);
-
-      canvasWidth = function canvasWidth() {
-        return width;
-      };
-
-      _export('canvasWidth', canvasWidth);
+      _export('default', Positionable);
     }
   };
 });
-System.register('src/image-loader/image-loader.js', ['src/image-loader/url-loader.js', 'src/image-loader/data-url-loader.js', 'node_modules/ramda/src/reduce.js', 'node_modules/ramda/src/map.js', 'node_modules/ramda/src/invoke.js', 'node_modules/ramda/src/filter.js', 'node_modules/ramda/src/forEach.js'], function (_export) {
+
+System.register('src/canvas/canvas.js', ['src/id-generator.js', 'src/positionable.js'], function (_export) {
   'use strict';
 
-  var urlLoader, dataUrlLoader, reduce, map, invoke, filter, forEach, loaders, defaultImageName, ImageLoader;
+  var idGenerator, Positionable, canvasIdGenerator, Canvas;
   return {
-    setters: [function (_srcImageLoaderUrlLoaderJs) {
-      urlLoader = _srcImageLoaderUrlLoaderJs['default'];
-    }, function (_srcImageLoaderDataUrlLoaderJs) {
-      dataUrlLoader = _srcImageLoaderDataUrlLoaderJs['default'];
-    }, function (_node_modulesRamdaSrcReduceJs) {
+    setters: [function (_srcIdGeneratorJs) {
+      idGenerator = _srcIdGeneratorJs['default'];
+    }, function (_srcPositionableJs) {
+      Positionable = _srcPositionableJs['default'];
+    }],
+    execute: function () {
+      canvasIdGenerator = idGenerator('Canvas');
+
+      Canvas = (function (_Positionable) {
+        babelHelpers.inherits(Canvas, _Positionable);
+
+        function Canvas() {
+          var id = arguments.length <= 0 || arguments[0] === undefined ? canvasIdGenerator.next().value : arguments[0];
+          babelHelpers.classCallCheck(this, Canvas);
+
+          babelHelpers.get(Object.getPrototypeOf(Canvas.prototype), 'constructor', this).call(this);
+
+          this.id = id;
+          this.contextType = '2d';
+          this.element = document.createElement('canvas');
+          this.context = this.element.getContext(this.contextType);
+
+          this.height = 800;
+          this.width = 600;
+
+          this.x = 0;
+          this.y = 0;
+
+          this.element.style.position = 'absolute';
+
+          this.reposition();
+        }
+
+        babelHelpers.createClass(Canvas, [{
+          key: 'resize',
+
+          /**
+           * resizes the canvas
+           */
+          value: function resize() {
+            this.element.setAttribute('width', this.width);
+            this.element.setAttribute('height', this.height);
+          }
+        }, {
+          key: 'reposition',
+
+          /**
+           * repositions the canvas
+           */
+          value: function reposition() {
+            this.element.style.top = this.y + 'px';
+            this.element.style.left = this.x + 'px';
+          }
+        }, {
+          key: 'width',
+
+          /**
+           * Sets the width of the canvas then modifies the width attribute of the element
+           * @param  {number} width 
+           */
+          set: function set(width) {
+            babelHelpers.set(Object.getPrototypeOf(Canvas.prototype), 'width', width, this);
+            this.element.setAttribute('width', width);
+          },
+          get: function get() {
+            return babelHelpers.get(Object.getPrototypeOf(Canvas.prototype), 'width', this);
+          }
+        }, {
+          key: 'height',
+
+          /**
+           * Sets the height of the canvas then modifies the height attribute of the element
+           * @param  {number} height 
+           */
+          set: function set(height) {
+            babelHelpers.set(Object.getPrototypeOf(Canvas.prototype), 'height', height, this);
+            this.element.setAttribute('height', height);
+          },
+          get: function get() {
+            return babelHelpers.get(Object.getPrototypeOf(Canvas.prototype), 'height', this);
+          }
+        }]);
+        return Canvas;
+      })(Positionable);
+
+      _export('default', Canvas);
+    }
+  };
+});
+
+System.register('src/image-loader/image-loader.js', ['node_modules/ramda/src/reduce.js', 'node_modules/ramda/src/map.js', 'node_modules/ramda/src/filter.js', 'node_modules/ramda/src/forEach.js', 'src/image-loader/url-loader.js', 'src/image-loader/data-url-loader.js', 'src/id-generator.js'], function (_export) {
+  'use strict';
+
+  var reduce, map, filter, forEach, urlLoader, dataUrlLoader, idGenerator, imageIdGenerator, loaders, ImageLoader;
+  return {
+    setters: [function (_node_modulesRamdaSrcReduceJs) {
       reduce = _node_modulesRamdaSrcReduceJs['default'];
     }, function (_node_modulesRamdaSrcMapJs) {
       map = _node_modulesRamdaSrcMapJs['default'];
-    }, function (_node_modulesRamdaSrcInvokeJs) {
-      invoke = _node_modulesRamdaSrcInvokeJs['default'];
     }, function (_node_modulesRamdaSrcFilterJs) {
       filter = _node_modulesRamdaSrcFilterJs['default'];
     }, function (_node_modulesRamdaSrcForEachJs) {
       forEach = _node_modulesRamdaSrcForEachJs['default'];
+    }, function (_srcImageLoaderUrlLoaderJs) {
+      urlLoader = _srcImageLoaderUrlLoaderJs['default'];
+    }, function (_srcImageLoaderDataUrlLoaderJs) {
+      dataUrlLoader = _srcImageLoaderDataUrlLoaderJs['default'];
+    }, function (_srcIdGeneratorJs) {
+      idGenerator = _srcIdGeneratorJs['default'];
     }],
     execute: function () {
+      imageIdGenerator = idGenerator('Image');
       loaders = [urlLoader, dataUrlLoader];
-
-      defaultImageName = (function (index) {
-        return function () {
-          return 'Image' + index++;
-        };
-      })(0);
 
       ImageLoader = (function () {
         function ImageLoader() {
@@ -2137,13 +2490,29 @@ System.register('src/image-loader/image-loader.js', ['src/image-loader/url-loade
 
         babelHelpers.createClass(ImageLoader, [{
           key: 'get',
+
+          /**
+           * Gets the image fro mthe specified key
+           * @param  {string} name The key used to store the image
+           * @return {[type]}      [description]
+           */
           value: function get(name) {
             return this.images.get(name);
           }
         }, {
-          key: 'set',
-          value: function set(name, image) {
+          key: 'add',
+
+          /**
+           * Adds an image to the map
+           * @param {string} name  - a name that can be used with .get to get the image
+           * @param {Imge Element} image A fully loaded DOM Image element.
+           *
+           * @returns {Image Element} The Image element being saved
+           */
+          value: function add(name, image) {
             this.images.set(name, image);
+
+            return image;
           }
         }, {
           key: 'addLoader',
@@ -2155,54 +2524,80 @@ System.register('src/image-loader/image-loader.js', ['src/image-loader/url-loade
             loaders.push({ name: name, predicate: predicate, loader: loader });
           }
         }, {
-          key: 'prepareForLoad',
-          value: function prepareForLoad(name, meta) {
-            var _this = this;
-
-            var test = function test(result, loaderDef) {
-              if (result) return result;
-
-              var loader = { name: name, load: function load() {
-                  return loaderDef.loader(meta).then(function (img) {
-                    return _this.set(name, img);
-                  });
-                } };
-              return loaderDef.predicate(meta) ? loader : result;
-            };
-
-            return reduce(test, undefined, loaders);
-          }
-        }, {
           key: 'queue',
-          value: function queue(name, meta) {
-            var loader = this.prepareForLoad(name, meta);
+
+          /**
+           * Add an image to the queue to be loaded at a later time
+           * @param  {string} src  - the url (or data url) to load
+           * @param  {string} [name='Image0...n'] The key to store the image agaist in the ImageLoader.images Map
+           *
+           * @returns {string} The key that can be used to get the image.
+           */
+          value: function queue(src) {
+            var name = arguments.length <= 1 || arguments[1] === undefined ? imageIdGenerator.next().value : arguments[1];
+
+            var loader = this.__prepareForLoad(src, name);
 
             loader && this.queued.push(loader);
+
+            return name;
           }
         }, {
           key: 'processQueue',
+
+          /**
+           * Load the queued images and empty the queue 
+           * @return {Promise} Resolved with the results of all the queued images
+           */
           value: function processQueue() {
+            var _this = this;
+
             return Promise.all(map(function (loader) {
               return loader.load();
-            }, this.queued)).then(this.emptyQueue.bind(this))['catch'](function (err) {
+            }, this.queued)).then(function (result) {
+              _this.emptyQueue();return result;
+            })['catch'](function (err) {
               return console.log('ImageLoader:', err);
             });
           }
         }, {
           key: 'emptyQueue',
+
+          /**
+           * Removes every queued image load
+           * @return {[type]} [description]
+           */
           value: function emptyQueue() {
             this.queued.splice(0);
           }
         }, {
           key: 'load',
-          value: function load(name, meta) {
-            var loader = this.prepareForLoad(name, meta);
-            return loader.load()['catch'](function (err) {
+
+          /**
+           * Loads an image
+           * @param  {[type]} src - a url (or data url) of the image to load
+           * @param  {string} [name='Image0...n'] The key to store the image agaist in the ImageLoader.images Map
+           * @return {Promise} Resolved with the Image element (with its name property set to _name_) or rejected with the loaders failure error
+           */
+          value: function load(src) {
+            var name = arguments.length <= 1 || arguments[1] === undefined ? imageIdGenerator.next().value : arguments[1];
+
+            var loader = this.__prepareForLoad(src, name);
+            return loader.load().then(function (img) {
+              img.name = name;return img;
+            })['catch'](function (err) {
               return console.log('ImageLoader:', err);
             });
           }
         }, {
           key: 'fromDocument',
+
+          /**
+           * stores all images found on the current document in the image loader
+           * @param  {function} predicate - If you need to filter the image list
+           * @param  {String} [nameProp='name']  - Property of the image element to use as a key in the ImageLoader.images Map. 
+           *                                       If the value of the property is undefined, the id generator  will be used giving 'Image0..n'
+           */
           value: function fromDocument(predicate) {
             var nameProp = arguments.length <= 1 || arguments[1] === undefined ? 'name' : arguments[1];
 
@@ -2210,7 +2605,31 @@ System.register('src/image-loader/image-loader.js', ['src/image-loader/url-loade
 
             if (!images.length) return;
 
-            forEach(this.set(img[nameProp] || defaultImageName(), img), images);
+            forEach(this.set(img[nameProp] || imageIdGenerator.next().value, img), images);
+          }
+        }, {
+          key: '__prepareForLoad',
+          value: function __prepareForLoad(src) {
+            var _this2 = this;
+
+            var name = arguments.length <= 1 || arguments[1] === undefined ? imageIdGenerator.next().value : arguments[1];
+
+            var test = function test(result, loaderDef) {
+              if (result) return result;
+
+              var loader = {
+                name: name,
+                load: function load() {
+                  return loaderDef.loader(src).then(function (img) {
+                    _this2.add(name, img);return img;
+                  });
+                }
+              };
+
+              return loaderDef.predicate(src) ? loader : result;
+            };
+
+            return reduce(test, undefined, loaders);
           }
         }]);
         return ImageLoader;
@@ -2220,33 +2639,48 @@ System.register('src/image-loader/image-loader.js', ['src/image-loader/url-loade
     }
   };
 });
-System.register('src/typekwondo.js', ['src/image-loader/image-loader.js', 'src/canvas/canvas.js', 'src/message-bus.js'], function (_export) {
+
+System.register('src/typekwondo.js', ['src/image-loader/image-loader.js', 'node_modules/just-debounce/index.js', 'src/canvas/canvas.js', 'src/message-bus.js', 'src/sprite.js'], function (_export) {
   'use strict';
 
-  var ImageLoader, setupCanvas, getContext, messageBus, imageLoader, ctx;
+  var ImageLoader, debounce, Canvas, messageBus, Sprite, imageLoader, background, backgroundCanvas;
+
+  function renderBackground() {
+    backgroundCanvas.context.drawImage(background.image, background.x, background.y, backgroundCanvas.width, backgroundCanvas.height);
+  }
+
+  function onViewportResize() {
+    backgroundCanvas.height = document.body.offsetHeight;
+    backgroundCanvas.width = document.body.offsetWidth;
+    renderBackground();
+  }
+
   return {
     setters: [function (_srcImageLoaderImageLoaderJs) {
       ImageLoader = _srcImageLoaderImageLoaderJs['default'];
+    }, function (_node_modulesJustDebounceIndexJs) {
+      debounce = _node_modulesJustDebounceIndexJs['default'];
     }, function (_srcCanvasCanvasJs) {
-      setupCanvas = _srcCanvasCanvasJs.setup;
-      getContext = _srcCanvasCanvasJs.getContext;
+      Canvas = _srcCanvasCanvasJs['default'];
     }, function (_srcMessageBusJs) {
       messageBus = _srcMessageBusJs['default'];
+    }, function (_srcSpriteJs) {
+      Sprite = _srcSpriteJs['default'];
     }],
     execute: function () {
       imageLoader = new ImageLoader();
+      background = new Sprite('background');
+      backgroundCanvas = new Canvas('background');
 
-      setupCanvas();
+      document.body.appendChild(backgroundCanvas.element);
 
-      ctx = getContext('2d');
-
-      messageBus.bind('canvas.resize', function () {
-        ctx.fillStyle = 'rgb(200,0,0)';
-        ctx.fillRect(10, 10, 55, 50);
-      });
+      imageLoader.load('images/dojo_background.jpg', 'background').then(function (img) {
+        background.image = img;renderBackground();
+      }).then(onViewportResize);window.onresize = debounce(onViewportResize, 100);
     }
   };
 });
+
 })
 (function(factory) {
   factory();

@@ -1,15 +1,15 @@
 'use strict';
 
-import vec2 from 'math/vec2.js';
+import Positionable from './positionable';
+import idGenerator from './id-generator';
 
-class Sprite{
-  constructor(id){
+const spriteIdGenerator = idGenerator('Sprite');
+
+class Sprite extends Positionable{
+  constructor(id = spriteIdGenerator.next().value){
+    super();
+
     this.id = id;
-    this.scale = 1;
-    this.postion = vec2.create(0, 0);
-
-    this._width = 0;
-    this._height = 0;
   }
 
   get image(){
@@ -18,37 +18,8 @@ class Sprite{
 
   set image(img){
     this._image = img;
-  }
-
-  get width(){
-    return this._width * this.scale;
-  }
-
-  set width(val){
-    this._width = val;
-  }
-
-  get height(){
-    return this._height * this.scale;
-  }
-
-  set height(val){
-    this._height = val;
-  }
-
-  get x(){
-    return this.position[0];
-  }
-
-  set x(val){
-    this.position[0] = val;
-  }
-
-  get y(){
-    return this.position[1];
-  }
-
-  set y(val){
-    this.position[1] = val;
+    return this;
   }
 }
+
+export default Sprite;

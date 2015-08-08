@@ -1,17 +1,29 @@
 'use strict';
 
-import ImageLoader from './image-loader/image-loader.js';
-import { setup as setupCanvas, getContext } from './canvas/canvas.js';
+import ImageLoader from './image-loader/image-loader';
+import debounce from 'debounce';
+import Canvas from './canvas/canvas';
+import messageBus from './message-bus';
+import Sprite from './sprite'
 
 let imageLoader = new ImageLoader();
+let background = new Sprite('background');
+let backgroundCanvas = new Canvas('background');
 
-setupCanvas();
+document.body.appendChild(backgroundCanvas.element);
 
+imageLoader.load( 'images/dojo_background.jpg', 'background' )
+           .then( img => { background.image = img; renderBackground(); } )
+           .then( onViewportResize );
 
-import messageBus from './message-bus.js';
-let ctx = getContext('2d');
+function renderBackground(){
+  backgroundCanvas.context.drawImage( background.image, background.x, background.y, backgroundCanvas.width, backgroundCanvas.height );
+}
 
-messageBus.bind('canvas.resize', function(){
-  ctx.fillStyle = "rgb(200,0,0)";
-  ctx.fillRect(10, 10, 55, 50);
-});
+function onViewportResize(){
+  backgroundCanvas.height = document.body.offsetHeight;
+  backgroundCanvas.width = document.body.offsetWidth;
+  renderBackground();
+}
+
+window.onresize = debounce( onViewportResize, 100 );

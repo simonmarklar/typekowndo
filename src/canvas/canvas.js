@@ -1,38 +1,71 @@
 'use strict';
 
-import debounce from 'debounce';
-import messageBus from '../message-bus.js';
+import idGenerator from '../id-generator';
+import Positionable from '../positionable';
 
-const canvasEl = document.createElement('canvas');
+const canvasIdGenerator = idGenerator('Canvas');
 
-let height = 800, 
-    width = 600,
-    contextType = '2d';
+class Canvas extends Positionable {
+  constructor(id = canvasIdGenerator.next().value){
+    super();
 
-function sizeToContainer(containerEl){
-  return function(){
-    height = containerEl.offsetHeight;
-    width = containerEl.offsetWidth;
+    this.id = id;
+    this.contextType = '2d';
+    this.element = document.createElement( 'canvas' );
+    this.context = this.element.getContext( this.contextType );
 
-    canvasEl.setAttribute('width', width);
-    canvasEl.setAttribute('height', height);
+    this.height = 800;
+    this.width = 600;
 
-    messageBus.emit('canvas.resize', width, height );
+    this.x = 0;
+    this.y = 0;
+
+    this.element.style.position = 'absolute';
+
+    this.reposition();
+  }
+
+  /**
+   * Sets the width of the canvas then modifies the width attribute of the element
+   * @param  {number} width 
+   */
+  set width(width){
+    super.width = width;
+    this.element.setAttribute( 'width', width );
+  }
+
+  get width(){
+    return super.width;
+  }
+
+  /**
+   * Sets the height of the canvas then modifies the height attribute of the element
+   * @param  {number} height 
+   */
+  set height(height){
+    super.height = height;
+    this.element.setAttribute( 'height', height );
+  }
+
+  get height(){
+    return super.height;
+  }
+
+  /**
+   * resizes the canvas
+   */
+  resize(  ) {
+    this.element.setAttribute( 'width', this.width );
+    this.element.setAttribute( 'height', this.height );
+  }
+
+  /**
+   * repositions the canvas
+   */
+  reposition( ){
+    this.element.style.top = this.y + 'px';
+    this.element.style.left = this.x + 'px';
   }
 }
 
-export function setup(config = {}){
-
-  var containerEl = config.containerEl ? config.containerEl : document.body
-  contextType = config.contextType ? config.contextType : contextType;
-
-  window.onresize = debounce( sizeToContainer(containerEl), 250 );
-  window.onresize();
-
-  containerEl.appendChild(canvasEl);
-}
-
-
-export var getContext = () => canvasEl.getContext(contextType);
-export var canvasHeight = () => height;
-export var canvasWidth = () => width;
+export default Canvas;
